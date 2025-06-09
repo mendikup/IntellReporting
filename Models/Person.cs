@@ -22,15 +22,26 @@ namespace Models
 
 
 
-        public Person(int id,string firstName, string lastName, string secretCode, string type,int numReports,int numMentions)
+        public Person(int id, string firstName, string lastName, string secretCode, string type, int numReports, int numMentions)
         {
             Id = id;
             FirstName = firstName;
             LastName = lastName;
             SecretCode = secretCode;
             Type = type;
-            NumReports =numReports ;
+            NumReports = numReports;
             NumMentions = numMentions;
         }
+        
+        public Person(string firstName, string lastName, string secretCode, string type, int numReports = 0, int numMentions = 0)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            SecretCode = secretCode;
+            Type = type;
+            NumReports = numReports;
+            NumMentions = numMentions;
+        }
+
     }
 }
