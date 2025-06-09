@@ -1,24 +1,36 @@
-namespace Models.Person
+namespace Models
 {
+
+
     public class Person
     {
-        public int Id;
-        public string FirstName;
-        public string LastName;
-        public string SecretName;
-        public int Type;
-        public int NumReports;
-        public int NumMentions;
+        public int Id { get; set; }
 
-        public Person(int id, string firstName, string lastName, int type, int numeRports, int numMentions)
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public string SecretCode { get; set; }
+
+        public string Type { get; set; }  // "reporter", "target", "both", "potential_agent"
+
+        public int NumReports { get; set; } = 0;
+
+        public int NumMentions { get; set; } = 0;
+
+
+
+
+
+        public Person(int id,string firstName, string lastName, string secretCode, string type,int numReports,int numMentions)
         {
             Id = id;
             FirstName = firstName;
             LastName = lastName;
+            SecretCode = secretCode;
             Type = type;
-            NumReports = numeRports;
+            NumReports =numReports ;
             NumMentions = numMentions;
         }
-
     }
 }
