@@ -29,7 +29,7 @@ namespace Data
                         while (reader.Read())
                         {
                             // Builds and returns a Person object from the database row
-                            person = RederUtils.BuildPerson(reader);
+                            person = ReaderUtils.BuildPerson(reader);
                             return person;
                         }
                     }
@@ -66,7 +66,7 @@ namespace Data
                         while (reader.Read())
                         {
                             // Builds and returns a Person object from the database row
-                            person = RederUtils.BuildPerson(reader);
+                            person = ReaderUtils.BuildPerson(reader);
                             return person;
                         }
                     }
