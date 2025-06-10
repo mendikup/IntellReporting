@@ -1,4 +1,5 @@
 using Data;
+using Models.intel;
 using services;
 
 namespace ConsoleUI
@@ -31,10 +32,21 @@ namespace ConsoleUI
                     case "1":
 
                         System.Console.WriteLine("enter The name of the person you want to report. ( first and last name)  ");
+                        Console.WriteLine();
                         string fullName = Console.ReadLine();
                         var target= PersonService.CreateOrFind(fullName);
-                        DBManeger.IncrementTargetReports(target);
-                        DBManeger.IncrementReportertReports(user);
+
+                        Console.WriteLine("please enter your report");
+                        string report = Console.ReadLine();
+
+
+                        //creates and insert intel instance to the DB and return the instance
+                       Intel intel= IntelService.CreateAndInsertIntelReport(user,target,report);
+
+
+                        //updetes the data base with necessay fields after reporting
+                        MatricService.UpdeteAftereport(user, target, intel);
+                        
                         Console.WriteLine();
 
                         break;

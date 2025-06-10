@@ -4,6 +4,7 @@ using utils;
 using System.Data;
 using System.Linq.Expressions;
 using Models.intel;
+using System.Dynamic;
 
 namespace Data
 {
@@ -127,7 +128,7 @@ namespace Data
             {
 
                 using (var conn = Connection.GetOpenConnection())
-                using (var command = new MySqlCommand("INSERT INTO intelreports(reporter_id,terget_id,content) " +
+                using (var command = new MySqlCommand("INSERT INTO intelreports(reporter_id,target_id,content) " +
                                                         "VALUES(@reporterid,@targetId,@content)", conn))
 
                 {
@@ -143,7 +144,7 @@ namespace Data
 
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex);
 
             }
 
@@ -152,38 +153,144 @@ namespace Data
 
         public static void IncrementTargetReports(Person target)
         {
-            using (var conn = Connection.GetOpenConnection())
-            using (var command = new MySqlCommand("UPDATE people SET num_mention = num_mention+1 WHERE id = @id ", conn))
+            try
             {
-                command.Parameters.AddWithValue("@id", target.Id);
+                using (var conn = Connection.GetOpenConnection())
+                using (var command = new MySqlCommand("UPDATE people SET num_mention = num_mention+1 WHERE id = @id ", conn))
+                {
+                    command.Parameters.AddWithValue("@id", target.Id);
 
-                command.ExecuteNonQuery();
+                    command.ExecuteNonQuery();
 
+
+                }
 
             }
 
+            catch (Exception ex)
+            {
+                System.Console.WriteLine(ex.Message);
+            }
+
         }
+
 
 
         public static void IncrementReporterNumOfReports(Person reporter)
         {
-            using (var conn = Connection.GetOpenConnection())
-            using (var command = new MySqlCommand("UPDATE people SET num_reports = num_mention+1 WHERE id = @id ", conn))
+
+            try
             {
-                command.Parameters.AddWithValue("@id", reporter.Id);
+                using (var conn = Connection.GetOpenConnection())
+                using (var command = new MySqlCommand("UPDATE people SET num_reports = num_reports+1 WHERE id = @id ", conn))
+                {
+                    command.Parameters.AddWithValue("@id", reporter.Id);
 
-                command.ExecuteNonQuery();
+                    command.ExecuteNonQuery();
 
-
+                }
             }
 
+            catch (Exception ex)
+            {
+                System.Console.WriteLine(ex.Message);
+            }
         }
 
 
 
 
+        public static int GetAverageCarecters(Person reporter)
+        {
+            int AVG = 0;
+
+            try
+            {
+                using (var conn = Connection.GetOpenConnection())
+                using (var command = new MySqlCommand("SELECT AVG(CHAR_LENGTH(content)) FROM IntelReports WHERE target_id = @target_id;", conn))
+                {
+                    command.Parameters.AddWithValue("@target_id", reporter.Id);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read() && !reader.IsDBNull(0))
+                        {
+                            AVG = Convert.ToInt32(reader.GetDouble(0));
+                        }
+                    }
+                }
+                return AVG;
+            }
+
+            catch (Exception ex)
+            {
+                System.Console.WriteLine(ex.Message);
+            }
+
+            return AVG;
+        }
+
+               
+    
+
+
+        public static int GetNumberOfReports(Person reporter)
+        {
+            int counter = 0;
+
+            try
+            {
+                using (var conn = Connection.GetOpenConnection())
+                using (var command = new MySqlCommand("SELECT num_reports FROM people WHERE id = @id;", conn))
+                {
+                    command.Parameters.AddWithValue("@id", reporter.Id);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read() && !reader.IsDBNull(0))
+                        {
+                            counter = Convert.ToInt32(reader.GetDouble(0));
+                        }
+                    }
+                }
+                return counter;
+            }
+
+            catch (Exception ex)
+            {
+                System.Console.WriteLine(ex.Message);
+            }
+
+
+            return counter;
+        }
+
+
+        public static void updateStatus(Person reporter, string status)
+        {
+
+            try
+            {
+                using (var conn = Connection.GetOpenConnection())
+                using (var command = new MySqlCommand("UPDATE people SET type = @type WHERE id = @id ", conn))
+                {
+                    command.Parameters.AddWithValue("@id", reporter.Id);
+                    command.Parameters.AddWithValue("@type", status);
+
+                    command.ExecuteNonQuery();
+
+
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                System.Console.WriteLine(ex.Message);
+            }
+
+        }
+
     }
-
 }
-
 
