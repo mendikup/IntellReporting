@@ -3,6 +3,7 @@ using Models;
 using utils;
 using System.Data;
 using System.Linq.Expressions;
+using Models.intel;
 
 namespace Data
 {
@@ -119,8 +120,70 @@ namespace Data
 
         }
 
+
+        public static void InsertNewRreport(Intel report)
+        {
+            try
+            {
+
+                using (var conn = Connection.GetOpenConnection())
+                using (var command = new MySqlCommand("INSERT INTO intelreports(reporter_id,terget_id,content) " +
+                                                        "VALUES(@reporterid,@targetId,@content)", conn))
+
+                {
+                    command.Parameters.AddWithValue("@reporterid", report.RporterId);
+                    command.Parameters.AddWithValue("@targetId", report.TargetId);
+                    command.Parameters.AddWithValue("@content", report.Content);
+
+                    command.ExecuteNonQuery();
+
+
+                }
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+
+            }
+
+
+        }
+
+        public static void IncrementTargetReports(Person target)
+        {
+            using (var conn = Connection.GetOpenConnection())
+            using (var command = new MySqlCommand("UPDATE people SET num_mention = num_mention+1 WHERE id = @id ", conn))
+            {
+                command.Parameters.AddWithValue("@id", target.Id);
+
+                command.ExecuteNonQuery();
+
+
+            }
+
+        }
+
+
+        public static void IncrementReporterNumOfReports(Person reporter)
+        {
+            using (var conn = Connection.GetOpenConnection())
+            using (var command = new MySqlCommand("UPDATE people SET num_reports = num_mention+1 WHERE id = @id ", conn))
+            {
+                command.Parameters.AddWithValue("@id", reporter.Id);
+
+                command.ExecuteNonQuery();
+
+
+            }
+
+        }
+
+
+
+
     }
 
 }
-    
+
 
