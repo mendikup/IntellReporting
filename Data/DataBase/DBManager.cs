@@ -1,13 +1,15 @@
 using MySql.Data.MySqlClient;
 using Models;
 using utils;
+using System.Data;
+using System.Linq.Expressions;
 
 namespace Data
 {
     public static class DBManeger
     {
         // Creates a database connection factory with MySQL connection string
-        private static DbConnectionFactory Connection = 
+        private static DbConnectionFactory Connection =
             new DbConnectionFactory("server=127.0.0.1;user=root;password=;database=malshinon;");
 
 
@@ -86,9 +88,39 @@ namespace Data
 
 
         // Inserts a new person into the database
-        public static void insertNewPerson(Person person)
+        public static void insertNewPerson(Person p)
         {
-            // Implementation to be added
+            try
+            {
+
+                using (var conn = Connection.GetOpenConnection())
+                using (var command = new MySqlCommand("INSERT INTO people(first_name,last_name,secret_code,type,num_reports,num_mention) " +
+                                                        "VALUES(@fn,@ln,@sc,@type,@nr,@nm)", conn))
+
+                {
+                    command.Parameters.AddWithValue("@fn", p.FirstName);
+                    command.Parameters.AddWithValue("@ln", p.LastName);
+                    command.Parameters.AddWithValue("@sc", p.SecretCode);
+                    command.Parameters.AddWithValue("@type", p.Type);
+                    command.Parameters.AddWithValue("@nr", p.NumReports);
+                    command.Parameters.AddWithValue("@nm", p.NumMentions);
+
+                    command.ExecuteNonQuery();
+
+
+                }
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+
+            }
+
         }
+
     }
+
 }
+    
+
