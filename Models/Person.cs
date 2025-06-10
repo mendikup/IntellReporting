@@ -47,7 +47,7 @@ namespace Models
 
         public void PrintObject()
         {
-            System.Console.WriteLine($"person detailes- id: {Id} ||| first name: {FirstName} ||| last name: {LastName} ||| secret code: {SecretCode} ||| type: {Type} ||| num reports: {NumReports}||| num mentions {NumMentions}");
+            Console.WriteLine($"person detailes- id: {Id} ||| first name: {FirstName} ||| last name: {LastName} ||| secret code: {SecretCode} ||| type: {Type} ||| num reports: {NumReports}||| num mentions {NumMentions}");
         }
 
     }
