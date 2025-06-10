@@ -33,7 +33,7 @@ namespace services
 
 
             // if person not found create a new one
-            string code = "djkfig";
+            string code = "FB2H86";
             person = new Person
             (
                 firstName,
