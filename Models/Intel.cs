@@ -1,3 +1,5 @@
+
+
 namespace Models.intel
 {
     public class Intel
@@ -8,17 +10,28 @@ namespace Models.intel
 
         public string Content;
 
-        public string Time;
+        public DateTime Time;
 
 
-        public Intel(int id, int reportId, int targetId, string content, string time)
+        public Intel(int id, int reportId, int targetId, string content, DateTime time)
         {
             Id = id;
             RporterId = reportId;
             TargetId = targetId;
             Content = content;
             Time = time;
-          
+
+        }
+
+
+        public Intel(int reportId, int targetId, string content, DateTime time)
+        {
+
+            RporterId = reportId;
+            TargetId = targetId;
+            Content = content;
+            Time = time;
+
         }
 
     }
