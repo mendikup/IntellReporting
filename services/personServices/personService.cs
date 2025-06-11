@@ -17,7 +17,7 @@ namespace services
 
             if (InputValidator.IsSecretCode(input))
             {
-                person = DBManeger.GetBySecretCode(input);
+                person = PersonDBManeger.GetBySecretCode(input);
                 if (person != null)
                     return person;
             }
@@ -27,7 +27,7 @@ namespace services
             string firstName = parts[0];
             string lastName = parts.Length > 1 ? parts[1] : "";
 
-            person = DBManeger.GetByName(firstName, lastName);
+            person = PersonDBManeger.GetByName(firstName, lastName);
             if (person != null)
                 return person;
 
@@ -44,13 +44,13 @@ namespace services
                 0
             );
 
-            DBManeger.insertNewPerson(person);
+            PersonDBManeger.insertNewPerson(person);
             return person;
         }
 
         public static List<Person> GetAllDengerous ()
         {
-            List<Person> People = DBManeger.GetDangerous();
+            List<Person> People = PersonDBManeger.GetDangerous();
 
             return People;
         }

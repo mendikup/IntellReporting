@@ -16,7 +16,7 @@ namespace services
 
             try
             {
-                DBManeger.InsertNewRreport(report);
+                IntelDBManeger.InsertNewRreport(report);
                 Console.WriteLine("[LOG]: new intel report was created successfully");
 
             }

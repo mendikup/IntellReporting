@@ -11,13 +11,13 @@ namespace services
 
 
 
-            int averageCaharactersInReport = DBManeger.GetAverageCarecters(reporter);
+            int averageCaharactersInReport = IntelDBManeger.GetAverageCarecters(reporter);
 
-            int numberOfReports = DBManeger.GetNumberOfReports(reporter);
+            int numberOfReports = PersonDBManeger.GetNumberOfReports(reporter);
 
-            int numOfTargetMention = DBManeger.GetNumOfmention(target);
+            int numOfTargetMention = PersonDBManeger.GetNumOfmention(target);
 
-            int numOfReporterMention = DBManeger.GetNumOfmention(reporter);
+            int numOfReporterMention = PersonDBManeger.GetNumOfmention(reporter);
 
 
 
@@ -25,7 +25,7 @@ namespace services
             //check if the roprter is a potential agent or target ,if so update his status
             if (averageCaharactersInReport > 35 && numberOfReports >= 11 && reporter.Type != "potential_agent")
             {
-                DBManeger.updateStatus(reporter, "potential_agent");
+                PersonDBManeger.updateStatus(reporter, "potential_agent");
 
                 Console.WriteLine($"reporter: {reporter.FirstName} || number of reports is: {reporter.NumReports} and he is a potential agant");
             }
@@ -34,7 +34,7 @@ namespace services
 
             if (numOfTargetMention == 0 && target.Type == "reporter")
             {
-                DBManeger.updateStatus(target, "target");
+                PersonDBManeger.updateStatus(target, "target");
             }
 
 
@@ -42,7 +42,7 @@ namespace services
             if (numOfReporterMention > 0 && numberOfReports > 0 && reporter.Type == "reporter" )
 
             {
-                DBManeger.updateStatus(reporter, "both");
+                PersonDBManeger.updateStatus(reporter, "both");
 
             }
 
@@ -50,7 +50,7 @@ namespace services
 
             if (numOfTargetMention > 20 && target.IsDangerous == 0)
             {
-                DBManeger.MarkAsDangerous(target);
+                PersonDBManeger.MarkAsDangerous(target);
                 Console.WriteLine($"[ALERT]{target.FirstName} {target.LastName} is dangerous!! ");
 
 
@@ -64,8 +64,8 @@ namespace services
 }
 
 
-DBManeger.IncrementTargetReports(target);
-DBManeger.IncrementReporterNumOfReports(reporter);
+PersonDBManeger.IncrementTargetReports(target);
+PersonDBManeger.IncrementReporterNumOfReports(reporter);
 
         }
 
