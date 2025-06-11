@@ -8,7 +8,7 @@ using System.Dynamic;
 
 namespace Data
 {
-    public static class DBManeger
+    public static class PersonDBManeger
     {
         // Creates a database connection factory with MySQL connection string
         private static DbConnectionFactory Connection =
@@ -192,34 +192,6 @@ namespace Data
         }
 
 
-        public static void InsertNewRreport(Intel report)
-        {
-            try
-            {
-
-                using (var conn = Connection.GetOpenConnection())
-                using (var command = new MySqlCommand("INSERT INTO intelreports(reporter_id,target_id,content) " +
-                                                        "VALUES(@reporterid,@targetId,@content)", conn))
-
-                {
-                    command.Parameters.AddWithValue("@reporterid", report.RporterId);
-                    command.Parameters.AddWithValue("@targetId", report.TargetId);
-                    command.Parameters.AddWithValue("@content", report.Content);
-
-                    command.ExecuteNonQuery();
-
-
-                }
-            }
-
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-
-            }
-
-
-        }
 
         public static void IncrementTargetReports(Person target)
         {
@@ -270,35 +242,7 @@ namespace Data
 
 
 
-        public static int GetAverageCarecters(Person reporter)
-        {
-            int AVG = 0;
-
-            try
-            {
-                using (var conn = Connection.GetOpenConnection())
-                using (var command = new MySqlCommand("SELECT AVG(CHAR_LENGTH(content)) FROM IntelReports WHERE target_id = @target_id;", conn))
-                {
-                    command.Parameters.AddWithValue("@target_id", reporter.Id);
-
-                    using (var reader = command.ExecuteReader())
-                    {
-                        if (reader.Read() && !reader.IsDBNull(0))
-                        {
-                            AVG = Convert.ToInt32(reader.GetDouble(0));
-                        }
-                    }
-                }
-                return AVG;
-            }
-
-            catch (Exception ex)
-            {
-                System.Console.WriteLine(ex.Message);
-            }
-
-            return AVG;
-        }
+     
 
 
 
