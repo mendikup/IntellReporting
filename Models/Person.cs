@@ -18,11 +18,13 @@ namespace Models
 
         public int NumMentions { get; set; } = 0;
 
+        public int IsDangerous { get; set; } = 0;
 
 
 
 
-        public Person(int id, string firstName, string lastName, string secretCode, string type, int numReports, int numMentions)
+
+        public Person(int id, string firstName, string lastName, string secretCode, string type, int numReports, int numMentions, int isdangerous = 0)
         {
             Id = id;
             FirstName = firstName;
@@ -31,6 +33,8 @@ namespace Models
             Type = type;
             NumReports = numReports;
             NumMentions = numMentions;
+            IsDangerous = isdangerous;
+
         }
 
         public Person(string firstName, string lastName, string secretCode, string type, int numReports = 0, int numMentions = 0)

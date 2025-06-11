@@ -17,17 +17,21 @@ namespace utils
         string type = reader.GetString("type");
         int numReports = reader.GetInt32("num_reports");
         int numMentions = reader.GetInt32("num_mention");
+        int isDangerous = reader.GetInt32("is_dangerous");
 
-        
-        Person person = new Person
-        (
-            id ,
-            firstName,
-             lastName,
-             secretCode,
-             type,
-             numReports,
-             numMentions
+
+            Person person = new Person
+            (
+                id,
+                firstName,
+                 lastName,
+                 secretCode,
+                 type,
+                 numReports,
+                 numMentions,
+                 isDangerous
+
+             
         );
 
         return person;

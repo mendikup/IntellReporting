@@ -89,6 +89,77 @@ namespace Data
 
 
 
+        public static List<Person> GetAllPeople()
+        {
+            List<Person> people = new List<Person>();
+
+            try
+            {
+                using (var conn = Connection.GetOpenConnection())
+                using (var command = new MySqlCommand("SELECT * FROM people ", conn))
+                {
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            // Builds and returns a Person object from the database row
+                            Person person = ReaderUtils.BuildPerson(reader);
+                            people.Add(person);
+                        }
+                    }
+                }
+
+                return people;
+            }
+
+            catch (Exception Ex)
+            {
+                Console.WriteLine(Ex.Message);
+            }
+
+            return people;
+
+        }
+
+
+
+
+        public static List<Person> GetDangerous()
+        {
+            List<Person> people = new List<Person>();
+
+            try
+            {
+                using (var conn = Connection.GetOpenConnection())
+                using (var command = new MySqlCommand("SELECT * FROM people WHERE type=@dangerous ", conn))
+                {
+
+
+                    command.Parameters.AddWithValue("@dangerous", "potential_agent");
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            // Builds and returns a Person object from the database row
+                            Person person = ReaderUtils.BuildPerson(reader);
+                            people.Add(person);
+                        }
+                    }
+                }
+
+                return people;
+            }
+
+            catch (Exception Ex)
+            {
+                Console.WriteLine(Ex.Message);
+            }
+
+            return people;
+        }
+
+
         // Inserts a new person into the database
         public static void insertNewPerson(Person p)
         {
@@ -230,8 +301,8 @@ namespace Data
             return AVG;
         }
 
-               
-    
+
+
 
 
         public static int GetNumberOfReports(Person reporter)
@@ -247,9 +318,40 @@ namespace Data
 
                     using (var reader = command.ExecuteReader())
                     {
-                        if (reader.Read() && !reader.IsDBNull(0))
+                        if (reader.Read())
                         {
-                            counter = Convert.ToInt32(reader.GetDouble(0));
+                            counter = reader.GetInt32(0);
+                        }
+                    }
+                }
+                return counter;
+            }
+
+            catch (Exception ex)
+            {
+                System.Console.WriteLine(ex.Message);
+            }
+
+
+            return counter;
+        }
+
+        public static int GetNumOfmention(Person target)
+        {
+            int counter = 0;
+
+            try
+            {
+                using (var conn = Connection.GetOpenConnection())
+                using (var command = new MySqlCommand("SELECT num_mention FROM people WHERE id = @id;", conn))
+                {
+                    command.Parameters.AddWithValue("@id", target.Id);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            counter = reader.GetInt32(0);
                         }
                     }
                 }
@@ -266,7 +368,10 @@ namespace Data
         }
 
 
-        public static void updateStatus(Person reporter, string status)
+
+
+
+        public static void updateStatus(Person person, string status)
         {
 
             try
@@ -274,11 +379,34 @@ namespace Data
                 using (var conn = Connection.GetOpenConnection())
                 using (var command = new MySqlCommand("UPDATE people SET type = @type WHERE id = @id ", conn))
                 {
-                    command.Parameters.AddWithValue("@id", reporter.Id);
+                    command.Parameters.AddWithValue("@id", person.Id);
                     command.Parameters.AddWithValue("@type", status);
 
                     command.ExecuteNonQuery();
 
+
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                System.Console.WriteLine(ex.Message);
+            }
+
+        }
+
+
+        public static void MarkAsDangerous(Person person)
+        {
+
+            try
+            {
+                using var conn = Connection.GetOpenConnection();
+                using var command = new MySqlCommand("UPDATE people SET is_dangerous= 1 WHERE id = @id ", conn);
+                {
+                    command.Parameters.AddWithValue("@id", person.Id);
+                    command.ExecuteNonQuery();
 
                 }
 
