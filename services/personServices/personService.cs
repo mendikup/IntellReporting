@@ -48,6 +48,13 @@ namespace services
             return person;
         }
 
+        public static List<Person> GetAllDengerous ()
+        {
+            List<Person> People = DBManeger.GetDangerous();
+
+            return People;
+        }
+
 
 
 

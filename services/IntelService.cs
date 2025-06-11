@@ -14,8 +14,25 @@ namespace services
         {
             Intel report = new Intel(reporete.Id, target.Id, intel, DateTime.Now);
 
-            DBManeger.InsertNewRreport(report);
+            try
+            {
+                DBManeger.InsertNewRreport(report);
+                Console.WriteLine("[LOG]: new intel report was created successfully");
 
+            }
+
+            catch (Exception ex)
+            {
+                System.Console.WriteLine(ex.Message);
+            }
+            
+             
+
+            
+
+
+
+            
             return report;
             
             

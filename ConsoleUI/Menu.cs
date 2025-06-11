@@ -23,7 +23,8 @@ namespace ConsoleUI
             {
                 Console.WriteLine("what would you like to do:");
                 System.Console.WriteLine("  1.submmit report");
-                System.Console.WriteLine("  2.view system Analitycs");
+                System.Console.WriteLine("  2.view all dangerous");
+                System.Console.WriteLine("  3.view system Analitycs");
 
                 input = Console.ReadLine();
 
@@ -34,22 +35,28 @@ namespace ConsoleUI
                         System.Console.WriteLine("enter The name of the person you want to report. ( first and last name)  ");
                         Console.WriteLine();
                         string fullName = Console.ReadLine();
-                        var target= PersonService.CreateOrFind(fullName);
+                        var target = PersonService.CreateOrFind(fullName);
 
                         Console.WriteLine("please enter your report");
                         string report = Console.ReadLine();
 
 
                         //creates and insert intel instance to the DB and return the instance
-                       Intel intel= IntelService.CreateAndInsertIntelReport(user,target,report);
+                        Intel intel = IntelService.CreateAndInsertIntelReport(user, target, report);
 
 
                         //updetes the data base with necessay fields after reporting
                         MatricService.UpdeteAftereport(user, target, intel);
-                        
+
                         Console.WriteLine();
 
                         break;
+
+                    case "2":
+            
+                    
+                        break;
+                        
 
                 }
 
