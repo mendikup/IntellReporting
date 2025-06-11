@@ -3,6 +3,7 @@ using Data;
 using Models;
 using utils;
 using Microsoft.VisualBasic;
+using Utils;
 
 
 namespace services
@@ -33,7 +34,7 @@ namespace services
 
 
             // if person not found create a new one
-            string code = "FB2H86";
+            string code = CodeGenerator.GenerateRandomCode() ;
             person = new Person
             (
                 firstName,
