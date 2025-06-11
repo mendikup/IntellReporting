@@ -32,21 +32,14 @@ namespace services
 
 
 
-            if (numOfTargetMention == 0)
-
+            if (numOfTargetMention == 0 && target.Type == "reporter")
             {
-
-                //before updating to type "target" checks if the repoter did not ever report . otherwise he his "both" not "target"
-                if (numberOfReports == 0)
-                {
-                    DBManeger.updateStatus(target, "target");
-                }
-
+                DBManeger.updateStatus(target, "target");
             }
 
 
 
-            if (numOfReporterMention > 0 || reporter.Type != "both" || reporter.Type != "potential_agent")
+            if (numOfReporterMention > 0 && numberOfReports > 0 && reporter.Type == "reporter" )
 
             {
                 DBManeger.updateStatus(reporter, "both");
@@ -65,14 +58,14 @@ namespace services
 
             // if the target is already dangerous just allert.
             else if (numOfTargetMention > 20 && target.IsDangerous > 0)
-            {
-                Console.WriteLine($"[ALERT]{target.FirstName} {target.LastName} is dangerous!! ");
+{
+    Console.WriteLine($"[ALERT]{target.FirstName} {target.LastName} is dangerous!! ");
 
-            }
-            
+}
 
-            DBManeger.IncrementTargetReports(target);
-            DBManeger.IncrementReporterNumOfReports(reporter);
+
+DBManeger.IncrementTargetReports(target);
+DBManeger.IncrementReporterNumOfReports(reporter);
 
         }
 

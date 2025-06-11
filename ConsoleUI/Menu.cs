@@ -1,4 +1,5 @@
 using Data;
+using Models;
 using Models.intel;
 using services;
 
@@ -9,12 +10,12 @@ namespace ConsoleUI
         public static void start()
         {
             Console.WriteLine("-----WELCOME TO TO MALSHINON SYSTEM-----");
-            
-                        Console.WriteLine("enter first and last name  seperetd by space or provide your secret code");
-                        string NameOrCode = Console.ReadLine();
-                        var user= PersonService.CreateOrFind(NameOrCode);
-                        Console.WriteLine($"Hi {user.FirstName} welcome to malshinon system");
-                        Console.WriteLine();
+
+            Console.WriteLine("enter first and last name  seperetd by space or provide your secret code");
+            string NameOrCode = Console.ReadLine();
+            var user = PersonService.CreateOrFind(NameOrCode);
+            Console.WriteLine($"Hi {user.FirstName} welcome to malshinon system");
+            Console.WriteLine();
 
 
 
@@ -52,11 +53,30 @@ namespace ConsoleUI
 
                         break;
 
+
                     case "2":
-            
-                    
+
+                        List<Person> Dangerous = PersonService.GetAllDengerous();
+
+
+                        Console.WriteLine("the most Dangerous people are:");
+
+                        foreach (Person d in Dangerous)
+                        {
+
+                            System.Console.WriteLine($"    {d.FirstName} {d.LastName} [{d.NumMentions} reports were reported]");
+                            System.Console.WriteLine();
+                            System.Console.WriteLine();
+
+                        }
+
+
+
+
+
+
                         break;
-                        
+
 
                 }
 

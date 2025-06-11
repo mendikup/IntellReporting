@@ -132,11 +132,10 @@ namespace Data
             try
             {
                 using (var conn = Connection.GetOpenConnection())
-                using (var command = new MySqlCommand("SELECT * FROM people WHERE type=@dangerous ", conn))
+                using (var command = new MySqlCommand("SELECT * FROM people WHERE is_dangerous=1 ", conn))
                 {
 
 
-                    command.Parameters.AddWithValue("@dangerous", "potential_agent");
                     using (var reader = command.ExecuteReader())
                     {
                         while (reader.Read())
