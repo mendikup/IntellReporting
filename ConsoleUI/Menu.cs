@@ -48,6 +48,7 @@ namespace ConsoleUI
 
                         //updetes the data base with necessay fields after reporting
                         MatricService.UpdeteAftereport(user, target, intel);
+                        MatricService.FindRapiedReport(target);
 
                         Console.WriteLine();
 

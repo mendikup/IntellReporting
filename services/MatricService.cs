@@ -39,7 +39,7 @@ namespace services
 
 
 
-            if (numOfReporterMention > 0 && numberOfReports > 0 && reporter.Type == "reporter" )
+            if (numOfReporterMention > 0 && numberOfReports > 0 && reporter.Type == "reporter")
 
             {
                 PersonDBManeger.updateStatus(reporter, "both");
@@ -58,14 +58,41 @@ namespace services
 
             // if the target is already dangerous just allert.
             else if (numOfTargetMention > 20 && target.IsDangerous > 0)
-{
-    Console.WriteLine($"[ALERT]{target.FirstName} {target.LastName} is dangerous!! ");
+            {
+                Console.WriteLine($"[ALERT]{target.FirstName} {target.LastName} is dangerous!! ");
 
-}
+            }
 
 
-PersonDBManeger.IncrementTargetReports(target);
-PersonDBManeger.IncrementReporterNumOfReports(reporter);
+            PersonDBManeger.IncrementTargetReports(target);
+            PersonDBManeger.IncrementReporterNumOfReports(reporter);
+
+        }
+        
+
+
+
+
+        public static void FindRapiedReport(Person target)
+        {
+            List<DateTime> theLastTreeRepotTimeStamp = IntelDBManeger.GetTheLastThreeReports(target);
+            DateTime theFirst = theLastTreeRepotTimeStamp[1];
+            DateTime theLast = theLastTreeRepotTimeStamp[0];
+
+            TimeSpan diff = theLast - theFirst;
+
+
+
+            if (diff.TotalMinutes <= 15)
+            {
+                Console.WriteLine($"Atention: new Alert was created");
+
+                Alert alert = new Alert(target.Id, $"Atention: {target.FirstName} has more than 3 reports less than 15 minuets !!");
+                AlertDBManeger.InsertNewAlert(alert); 
+            }
+
+
+
 
         }
 

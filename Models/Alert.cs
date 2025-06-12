@@ -2,10 +2,10 @@ namespace Models
 {
     public class Alert
     {
-        int Id { get; set; }
-        int TargetId { get; set; }
-        string Reasone { get; set; }
-        DateTime Time_Of_creation { get; set; }
+       public int Id { get; set; }
+       public int TargetId { get; set; }
+       public string Reasone { get; set; }
+       public DateTime Time_Of_creation { get; set; }
 
         public Alert(int id, int targetId, string reasone ,DateTime timeOfCreation)
         {
