@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq.Expressions;
 using Models.intel;
 using System.Dynamic;
+using Org.BouncyCastle.Asn1.X509;
 
 namespace Data
 {
@@ -43,7 +44,7 @@ namespace Data
 
         }
 
-           public static int GetAverageCarecters(Person reporter)
+        public static int GetAverageCarecters(Person reporter)
         {
             int AVG = 0;
 
@@ -71,6 +72,61 @@ namespace Data
             }
 
             return AVG;
+        }
+
+
+
+        public static List<DateTime> GetTheLastThreeReports(Person target)
+        {
+
+            List<DateTime> recentReport = new List<DateTime>();
+            DateTime timeStamp;
+
+            try
+            {
+                using (var conn = Connection.GetOpenConnection())
+                using (var command = new MySqlCommand("SELECT time_of_report FROM intelreports " +
+                                                        "WHERE  target_id = @targetId " +
+                                                        "ORDER BY time_of_report DESC LIMIT 3", conn))
+
+                {
+                    command.Parameters.AddWithValue("@targetId", target.Id);
+                    using (var reader = command.ExecuteReader())
+
+                    {
+                        while (reader.Read())
+                        {
+                            timeStamp = reader.GetDateTime("time_of_report");
+                            recentReport.Add(timeStamp);
+
+
+                        }
+
+
+
+
+                    }
+
+                    return recentReport;
+
+
+
+
+                }
+            }
+
+
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+
+            }
+            return recentReport;
+
+
+
+
+
         }
 
     }
